@@ -1,9 +1,9 @@
-function checkLength (line, length) {
-  return line.length <= length;
-}
+const checkLength = (line, length) => line.length <= length;
+
+checkLength('проверяемая строка', 20);
 
 
-function checkPalindrome (line) {
+const checkPalindrome = (line) => {
   const normalizedLine = line.toLowerCase().replaceAll(' ', '');
   let reversedLine = '';
 
@@ -12,22 +12,22 @@ function checkPalindrome (line) {
   }
 
   return normalizedLine === reversedLine;
-}
+};
+
+checkPalindrome('Лёша на полке клопа нашёл ');
 
 
-function retrieve (line) {
-  line = line.toString();
+const retrieve = (line) => {
+  const lineString = line.toString();
   let numberLine = '';
 
-  for(let i = 0; i < line.length; i++) {
-    if(!isNaN(line[i]) && line[i] !== ' ') {
-      numberLine += line[i];
+  for(let i = 0; i < lineString.length; i++) {
+    if(!Number.isNaN(parseInt(lineString[i], 10))) {
+      numberLine += lineString[i];
     }
   }
 
-  if (numberLine.length === 0) {
-    return NaN;
-  } else {
-    return Number(numberLine);
-  }
-}
+  return parseInt(numberLine, 10);
+};
+
+retrieve('1 кефир, 0.5 батона');
