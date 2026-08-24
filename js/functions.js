@@ -31,3 +31,22 @@ const retrieve = (line) => {
 };
 
 retrieve('1 кефир, 0.5 батона');
+
+
+const getMinutes = (time) => {
+  const [hours, minutes] = time.split(':');
+  return Number(hours) * 60 + Number(minutes);
+};
+
+// Функция проверяет что встреча не выходит за рамки рабочего дня
+const isMeetingValid = (start, end, meetStart, meetDuration) => {
+  const startTimeMinutes = getMinutes(start);
+  const endTimeMinutes = getMinutes(end);
+  const meetStartTimeMinutes = getMinutes(meetStart);
+  const endMeet = meetStartTimeMinutes + meetDuration;
+
+  // Встреча должна начинаться не раньше начала дня и заканчиваться не позже окончания дня
+  return meetStartTimeMinutes >= startTimeMinutes && endMeet <= endTimeMinutes;
+};
+
+isMeetingValid('08:00', '17:30', '17:00', 30);
