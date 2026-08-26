@@ -9,9 +9,9 @@ const fragment = document.createDocumentFragment();
 const createThumbnail = ({url, description, likes, comments}) => {
   const clonedTemplate = thumbnailTemplate.cloneNode(true).content.querySelector('.picture');
 
-  const img = clonedTemplate.querySelector('.picture__img');
-  img.src = url;
-  img.alt = description;
+  const clonedTemplateImg = clonedTemplate.querySelector('.picture__img');
+  clonedTemplateImg.src = url;
+  clonedTemplateImg.alt = description;
   clonedTemplate.querySelector('.picture__likes').textContent = likes;
   clonedTemplate.querySelector('.picture__comments').textContent = comments.length;
 
