@@ -1,3 +1,3 @@
-import {generatePhotoData} from './generate-photo-data.js';
+import printThumbnails from './thumbnails-maker';
 
-generatePhotoData();
+printThumbnails();
