@@ -1,3 +1,6 @@
-import printThumbnails from './thumbnails-maker';
+import { generatePhotoData } from './generate-photo-data.js';
+import { printThumbnails } from './thumbnails-maker.js';
 
-printThumbnails();
+const thumbnailsData = generatePhotoData();
+printThumbnails(thumbnailsData);
+
