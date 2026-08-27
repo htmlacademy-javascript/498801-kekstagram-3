@@ -1,13 +1,9 @@
-import {generatePhotoData} from './generate-photo-data.js';
-const thumbnailsData = generatePhotoData();
-
-const thumbnailTemplate = document.querySelector('#picture');
+const thumbnailTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const thumbnailsParent = document.querySelector('.pictures');
-const fragment = document.createDocumentFragment();
 
 // Создаем и возвращаем миниатюру
 const createThumbnail = ({url, description, likes, comments}) => {
-  const clonedTemplate = thumbnailTemplate.cloneNode(true).content.querySelector('.picture');
+  const clonedTemplate = thumbnailTemplate.cloneNode(true);
 
   const clonedTemplateImg = clonedTemplate.querySelector('.picture__img');
   clonedTemplateImg.src = url;
@@ -19,11 +15,14 @@ const createThumbnail = ({url, description, likes, comments}) => {
 };
 
 // Добавляем все миниатюры на страницу
-const printThumbnails = () => {
-  for(const data of thumbnailsData) {
-    fragment.append(createThumbnail(data));
-  }
+const printThumbnails = (thumbnailsData) => {
+  const fragment = document.createDocumentFragment();
+
+  thumbnailsData.forEach((pictureData) => {
+    fragment.append(createThumbnail(pictureData));
+  });
+
   thumbnailsParent.append(fragment);
 };
 
-export default printThumbnails;
+export { printThumbnails };
