@@ -1,7 +1,7 @@
 import { showPicture } from './renderBigPicture.js';
 
 // Функция отслеживания кликов на миниатюры
-const initGalleryListeners = (picturesBundle) => {
+const initGallery = (picturesBundle) => {
   const picturesContainer = document.querySelector('.pictures');
 
   picturesContainer.addEventListener('click', (evt) => {
@@ -20,4 +20,4 @@ const initGalleryListeners = (picturesBundle) => {
   });
 };
 
-export { initGalleryListeners };
+export { initGallery };
