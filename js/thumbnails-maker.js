@@ -14,15 +14,32 @@ const createThumbnail = ({url, description, likes, comments}) => {
   return clonedTemplate;
 };
 
+// Возвращает два метода: добавить связку элемент-данные и вернуть массив со связками
+const buildPicturesBundle = () => {
+  const picturesBundle = [];
+
+  return {
+    addPictures: (pictureData, pictureElement) => {
+      picturesBundle.push([pictureData, pictureElement]);
+    },
+    getBundle: () => picturesBundle
+  };
+};
+const buildBundle = buildPicturesBundle();
+
 // Добавляем все миниатюры на страницу
 const printThumbnails = (thumbnailsData) => {
   const fragment = document.createDocumentFragment();
 
   thumbnailsData.forEach((pictureData) => {
-    fragment.append(createThumbnail(pictureData));
+    const picture = createThumbnail(pictureData);
+    // Сохраним связку картинки и обьекта с данными
+    buildBundle.addPictures(pictureData, picture);
+    fragment.append(picture);
   });
 
   thumbnailsParent.append(fragment);
 };
 
-export { printThumbnails };
+const thumbnailsBundle = buildBundle.getBundle();
+export { printThumbnails, thumbnailsBundle };
