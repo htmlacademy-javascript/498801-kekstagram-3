@@ -1,7 +1,7 @@
-import { showPicture } from './renderBigPicture.js';
+import { showPicture } from './render-big-picture.js';
 
 // Функция отслеживания кликов на миниатюры
-const initGallery = (picturesBundle) => {
+const initGallery = (thumbnails) => {
   const picturesContainer = document.querySelector('.pictures');
 
   picturesContainer.addEventListener('click', (evt) => {
@@ -9,13 +9,12 @@ const initGallery = (picturesBundle) => {
     const currentPicture = evt.target.closest('.picture');
 
     if (currentPicture) {
-      picturesBundle.forEach((pictureData) => {
-        const [pictureProperties, picture] = pictureData;
+      const pictureId = Number(currentPicture.dataset.id);
+      const targetPictureData = thumbnails.find((thumbnail) => thumbnail.id === pictureId);
 
-        if (picture === currentPicture) {
-          showPicture(pictureProperties);
-        }
-      });
+      if(targetPictureData) {
+        showPicture(targetPictureData);
+      }
     }
   });
 };

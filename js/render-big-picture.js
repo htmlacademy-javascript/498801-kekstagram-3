@@ -74,7 +74,6 @@ function hidePicture () {
   addHidden(pictureModal);
   body.classList.remove('modal-open');
   removeHidden(commentsCountElement, commentsLoader);
-  closePictureModal.removeEventListener('click', onCloseClick);
   document.removeEventListener('keydown', onDocumentKeydown);
 }
 
@@ -85,8 +84,9 @@ const showPicture = (pictureProperties) => {
   addHidden(commentsCountElement, commentsLoader);
   body.classList.add('modal-open');
 
-  closePictureModal.addEventListener('click', onCloseClick);
   document.addEventListener('keydown', onDocumentKeydown);
 };
+
+closePictureModal.addEventListener('click', onCloseClick);
 
 export { showPicture };
