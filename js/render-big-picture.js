@@ -2,7 +2,10 @@ import { isEscapeKey, addHidden, removeHidden } from './utils.js';
 
 const COMMENT_AVATAR_WIDTH = 35;
 const COMMENT_AVATAR_HEIGHT = 35;
+const COMMENT_STEP_COUNT = 5;
 
+let commentsCounter = COMMENT_STEP_COUNT;
+let pictureComments;
 const body = document.body;
 const pictureModal = document.querySelector('.big-picture');
 const pictureImg = pictureModal.querySelector('.big-picture__img img');
@@ -36,8 +39,22 @@ const createComment = (avatarSrc, name, message) => {
 
 const printComments = (comments) => {
   const commentsFragment = document.createDocumentFragment();
+  const commentCount = comments.length < commentsCounter ? comments.length : commentsCounter;
+  const commentsVisibled = comments.slice(0, commentCount);
 
-  comments.forEach((comment) => {
+  commentsVisibleCountElement.textContent = commentsVisibled.length;
+
+  if (commentsVisibled.length === Number(commentsTotalCountElement.textContent)) {
+    commentsLoader.classList.add('hidden');
+  } else {
+    if (commentsLoader.classList.contains('hidden')) {
+      commentsLoader.classList.remove('hidden');
+    }
+  }
+
+  commentsContainer.innerHTML = '';
+
+  commentsVisibled.forEach((comment) => {
     const fillComment = createComment(comment.avatar, comment.name, comment.message);
     commentsFragment.append(fillComment);
   });
@@ -49,11 +66,9 @@ const fillPicture = (pictureData) => {
   pictureImg.src = pictureData.url;
   pictureImg.alt = pictureData.description;
   likesCountElement.textContent = pictureData.likes;
-  commentsVisibleCountElement.textContent = pictureData.comments.length;
   commentsTotalCountElement.textContent = pictureData.comments.length;
   pictureCaption.textContent = pictureData.description;
 
-  commentsContainer.innerHTML = '';
   printComments(pictureData.comments);
 };
 
@@ -73,20 +88,25 @@ const onDocumentKeydown = (evt) => {
 function hidePicture () {
   addHidden(pictureModal);
   body.classList.remove('modal-open');
-  removeHidden(commentsCountElement, commentsLoader);
   document.removeEventListener('keydown', onDocumentKeydown);
 }
 
 // Отображаем картинку после клика
 const showPicture = (pictureProperties) => {
+  commentsCounter = COMMENT_STEP_COUNT;
+  pictureComments = pictureProperties.comments;
   fillPicture(pictureProperties);
   removeHidden(pictureModal);
-  addHidden(commentsCountElement, commentsLoader);
   body.classList.add('modal-open');
 
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
 closePictureModal.addEventListener('click', onCloseClick);
+
+commentsLoader.addEventListener('click', () => {
+  commentsCounter += COMMENT_STEP_COUNT;
+  printComments(pictureComments);
+});
 
 export { showPicture };
