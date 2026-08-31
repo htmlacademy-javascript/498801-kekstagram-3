@@ -5,7 +5,7 @@ const COMMENT_AVATAR_HEIGHT = 35;
 const COMMENT_STEP_COUNT = 5;
 
 let commentsCounter = COMMENT_STEP_COUNT;
-let pictureComments;
+let pictureComments = [];
 const body = document.body;
 const pictureModal = document.querySelector('.big-picture');
 const pictureImg = pictureModal.querySelector('.big-picture__img img');
@@ -37,19 +37,17 @@ const createComment = (avatarSrc, name, message) => {
   return li;
 };
 
-const printComments = (comments) => {
+const printComments = () => {
   const commentsFragment = document.createDocumentFragment();
-  const commentCount = comments.length < commentsCounter ? comments.length : commentsCounter;
-  const commentsVisibled = comments.slice(0, commentCount);
+  const commentCount = pictureComments.length < commentsCounter ? pictureComments.length : commentsCounter;
+  const commentsVisibled = pictureComments.slice(0, commentCount);
 
   commentsVisibleCountElement.textContent = commentsVisibled.length;
 
   if (commentsVisibled.length === Number(commentsTotalCountElement.textContent)) {
     commentsLoader.classList.add('hidden');
   } else {
-    if (commentsLoader.classList.contains('hidden')) {
-      commentsLoader.classList.remove('hidden');
-    }
+    commentsLoader.classList.remove('hidden');
   }
 
   commentsContainer.innerHTML = '';
@@ -69,7 +67,7 @@ const fillPicture = (pictureData) => {
   commentsTotalCountElement.textContent = pictureData.comments.length;
   pictureCaption.textContent = pictureData.description;
 
-  printComments(pictureData.comments);
+  printComments();
 };
 
 // Обработчики способов закрытия картинки
@@ -106,7 +104,7 @@ closePictureModal.addEventListener('click', onCloseClick);
 
 commentsLoader.addEventListener('click', () => {
   commentsCounter += COMMENT_STEP_COUNT;
-  printComments(pictureComments);
+  printComments();
 });
 
 export { showPicture };
