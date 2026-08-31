@@ -1,3 +1,21 @@
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+const addHidden = (...elements) => {
+  elements.forEach((element) => {
+    if (element) {
+      element.classList.add('hidden');
+    }
+  });
+};
+
+const removeHidden = (...elements) => {
+  elements.forEach((element) => {
+    if (element) {
+      element.classList.remove('hidden');
+    }
+  });
+};
+
 // Генерация случайного числа от a до b (включая a и b)
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
@@ -20,4 +38,4 @@ const createIdGenerator = () => {
   };
 };
 
-export {getRandomInteger, getRandomArrayElement, createIdGenerator};
+export {isEscapeKey, addHidden, removeHidden, getRandomInteger, getRandomArrayElement, createIdGenerator};

@@ -2,8 +2,9 @@ const thumbnailTemplate = document.querySelector('#picture').content.querySelect
 const thumbnailsParent = document.querySelector('.pictures');
 
 // Создаем и возвращаем миниатюру
-const createThumbnail = ({url, description, likes, comments}) => {
+const createThumbnail = ({id, url, description, likes, comments}) => {
   const clonedTemplate = thumbnailTemplate.cloneNode(true);
+  clonedTemplate.dataset.id = id;
 
   const clonedTemplateImg = clonedTemplate.querySelector('.picture__img');
   clonedTemplateImg.src = url;
@@ -19,10 +20,11 @@ const printThumbnails = (thumbnailsData) => {
   const fragment = document.createDocumentFragment();
 
   thumbnailsData.forEach((pictureData) => {
-    fragment.append(createThumbnail(pictureData));
+    const picture = createThumbnail(pictureData);
+    fragment.append(picture);
   });
 
   thumbnailsParent.append(fragment);
 };
 
-export { printThumbnails };
+export { printThumbnails};
