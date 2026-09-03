@@ -39,12 +39,12 @@ const createComment = (avatarSrc, name, message) => {
 
 const printComments = () => {
   const commentsFragment = document.createDocumentFragment();
-  const commentCount = pictureComments.length < commentsCounter ? pictureComments.length : commentsCounter;
-  const commentsVisibled = pictureComments.slice(0, commentCount);
+  const commentCount = Math.min(pictureComments.length, commentsCounter);
+  const visibledComments = pictureComments.slice(0, commentCount);
 
-  commentsVisibleCountElement.textContent = commentsVisibled.length;
+  commentsVisibleCountElement.textContent = visibledComments.length;
 
-  if (commentsVisibled.length === Number(commentsTotalCountElement.textContent)) {
+  if (visibledComments.length === pictureComments.length) {
     addHidden(commentsLoader);
   } else {
     removeHidden(commentsLoader);
@@ -52,7 +52,7 @@ const printComments = () => {
 
   commentsContainer.innerHTML = '';
 
-  commentsVisibled.forEach((comment) => {
+  visibledComments.forEach((comment) => {
     const fillComment = createComment(comment.avatar, comment.name, comment.message);
     commentsFragment.append(fillComment);
   });
