@@ -5,10 +5,11 @@ const initGallery = (thumbnails) => {
   const picturesContainer = document.querySelector('.pictures');
 
   picturesContainer.addEventListener('click', (evt) => {
-    evt.preventDefault();
     const currentPicture = evt.target.closest('.picture');
 
     if (currentPicture) {
+      evt.preventDefault();
+
       const pictureId = Number(currentPicture.dataset.id);
       const targetPictureData = thumbnails.find((thumbnail) => thumbnail.id === pictureId);
 
