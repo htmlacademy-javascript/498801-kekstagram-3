@@ -1,6 +1,10 @@
 import { initModal } from './init-modal.js';
 import { isEscapeKey } from './utils.js';
 
+const MAX_HASHTAG_LENGTH = 20;
+const MAX_HASHTAGS_COUNT = 5;
+const MAX_COMMENT_LENGTH = 140;
+
 const imageForm = document.querySelector('.img-upload__form');
 const imageInput = imageForm.querySelector('.img-upload__input');
 const hashtagInput = imageForm.querySelector('.text__hashtags');
@@ -25,7 +29,7 @@ const validateHashtags = (value) => {
 
   const tags = trimmedValue.split(/\s+/);
 
-  if (tags.length > 5) {
+  if (tags.length > MAX_HASHTAGS_COUNT) {
     errors.push('Превышено количество');
   }
 
@@ -45,7 +49,7 @@ const validateHashtags = (value) => {
       errors.push('Не найдено имя хэштега');
     }
 
-    if (tag.length > 20) {
+    if (tag.length > MAX_HASHTAG_LENGTH) {
       errors.push(`Слишком длинный хэштег ${tag}`);
     }
 
@@ -70,7 +74,7 @@ const validateComment = (value) => {
     return true;
   }
 
-  if(value.length > 140) {
+  if(value.length > MAX_COMMENT_LENGTH) {
     errorCommentMessage = 'Слишком много символов';
     return false;
   }
@@ -112,10 +116,16 @@ const onImageInputChange = () => {
   const imageUrl = URL.createObjectURL(image);
 
   imagePreview.src = imageUrl;
+
+  hashtagInput.addEventListener('keydown', onKeydown);
+  descriptionInput.addEventListener('keydown', onKeydown);
+
   initModal(uploadOverlay, closeButton, clearForm);
 };
 
 function clearForm () {
+  imageForm.reset();
+  pristine.reset();
   if (imageInput) {
     imageInput.value = '';
   }
@@ -128,8 +138,6 @@ const imageFormInit = () => {
   if (imageForm) {
     imageForm.addEventListener('submit', onSubmitClick);
     imageInput.addEventListener('change', onImageInputChange);
-    hashtagInput.addEventListener('keydown', onKeydown);
-    descriptionInput.addEventListener('keydown', onKeydown);
   }
 };
 
