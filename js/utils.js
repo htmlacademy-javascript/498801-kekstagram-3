@@ -38,4 +38,5 @@ const createIdGenerator = () => {
   };
 };
 
+
 export {isEscapeKey, addHidden, removeHidden, getRandomInteger, getRandomArrayElement, createIdGenerator};
