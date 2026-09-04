@@ -1,7 +1,7 @@
 import { initModal } from './init-modal.js';
 import { isEscapeKey } from './utils.js';
-import { initResizeImage } from './init-resize.js';
-import { initEffect } from './init-effect.js';
+import { initResizeImage, resetResize } from './init-resize.js';
+import { initEffect, resetEffects } from './init-effect.js';
 
 const MAX_HASHTAG_LENGTH = 20;
 const MAX_HASHTAGS_COUNT = 5;
@@ -128,6 +128,8 @@ const onImageInputChange = () => {
 function clearForm () {
   imageForm.reset();
   pristine.reset();
+  resetEffects();
+  resetResize();
   if (imageInput) {
     imageInput.value = '';
   }

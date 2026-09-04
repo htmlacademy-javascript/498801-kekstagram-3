@@ -38,4 +38,9 @@ const initResizeImage = () => {
   zoomInButton.addEventListener('click', zoomIn);
 };
 
-export { initResizeImage };
+const resetResize = () => {
+  zoomCurrentValue = DEFAULT_ZOOM_VALUE;
+  updateValues();
+};
+
+export { initResizeImage, resetResize };
