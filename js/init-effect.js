@@ -73,12 +73,16 @@ const initEffect = () => {
   });
 
   imageUploadForm.addEventListener('reset', () => {
-    selectedDataEffect = null;
-    imagePreview.style.filter = '';
-    if (!sliderContainer.classList.contains('hidden')) {
-      sliderContainer.classList.add('hidden');
-    }
+
   });
 };
 
-export { initEffect };
+const resetEffects = () => {
+  selectedDataEffect = null;
+  imagePreview.style.filter = '';
+  if (!sliderContainer.classList.contains('hidden')) {
+    sliderContainer.classList.add('hidden');
+  }
+};
+
+export { initEffect, resetEffects };

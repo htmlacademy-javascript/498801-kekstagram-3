@@ -1,6 +1,5 @@
 import { isEscapeKey, addHidden, removeHidden } from './utils.js';
 
-
 function initModal (overlay, closeButton, callback) {
 
   const onCloseClick = () => {
@@ -37,4 +36,8 @@ function initModal (overlay, closeButton, callback) {
   }
 }
 
-export { initModal };
+const resetValues = (callback) => {
+  callback();
+};
+
+export { initModal, resetValues };
