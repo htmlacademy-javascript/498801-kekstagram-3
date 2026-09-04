@@ -1,5 +1,7 @@
 import { initModal } from './init-modal.js';
 import { isEscapeKey } from './utils.js';
+import { initResizeImage } from './init-resize.js';
+import { initEffect } from './init-effect.js';
 
 const MAX_HASHTAG_LENGTH = 20;
 const MAX_HASHTAGS_COUNT = 5;
@@ -138,6 +140,8 @@ const imageFormInit = () => {
   if (imageForm) {
     imageForm.addEventListener('submit', onSubmitClick);
     imageInput.addEventListener('change', onImageInputChange);
+    initResizeImage();
+    initEffect();
   }
 };
 
