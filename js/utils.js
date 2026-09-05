@@ -38,5 +38,6 @@ const createIdGenerator = () => {
   };
 };
 
+const toDecimal = (percent) => percent / 100;
 
-export {isEscapeKey, addHidden, removeHidden, getRandomInteger, getRandomArrayElement, createIdGenerator};
+export {isEscapeKey, addHidden, removeHidden, getRandomInteger, getRandomArrayElement, createIdGenerator, toDecimal};

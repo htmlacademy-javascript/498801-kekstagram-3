@@ -1,5 +1,7 @@
 import { initModal } from './init-modal.js';
 import { isEscapeKey } from './utils.js';
+import { initResizeImage, resetResize } from './init-resize.js';
+import { initEffect, resetEffects } from './init-effect.js';
 
 const MAX_HASHTAG_LENGTH = 20;
 const MAX_HASHTAGS_COUNT = 5;
@@ -110,12 +112,8 @@ const onImageInputChange = () => {
     return;
   }
 
-  const imagePreview = imageForm.querySelector('.img-upload__preview img');
   const uploadOverlay = imageForm.querySelector('.img-upload__overlay');
   const closeButton = imageForm.querySelector('.cancel');
-  const imageUrl = URL.createObjectURL(image);
-
-  imagePreview.src = imageUrl;
 
   hashtagInput.addEventListener('keydown', onKeydown);
   descriptionInput.addEventListener('keydown', onKeydown);
@@ -126,6 +124,8 @@ const onImageInputChange = () => {
 function clearForm () {
   imageForm.reset();
   pristine.reset();
+  resetEffects();
+  resetResize();
   if (imageInput) {
     imageInput.value = '';
   }
@@ -138,6 +138,8 @@ const imageFormInit = () => {
   if (imageForm) {
     imageForm.addEventListener('submit', onSubmitClick);
     imageInput.addEventListener('change', onImageInputChange);
+    initResizeImage();
+    initEffect();
   }
 };
 
