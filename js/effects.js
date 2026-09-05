@@ -1,4 +1,4 @@
-const EFFECTS = {
+const Effects = {
   CHROME: {
     filter: 'grayscale',
     min: 0,
@@ -36,4 +36,4 @@ const EFFECTS = {
   }
 };
 
-export { EFFECTS };
+export { Effects };
