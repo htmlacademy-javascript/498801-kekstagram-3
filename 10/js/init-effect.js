@@ -1,4 +1,4 @@
-import { EFFECTS } from './effects.js';
+import { Effects } from './effects.js';
 
 const imageUploadForm = document.querySelector('.img-upload__form');
 const imagePreview = imageUploadForm.querySelector('.img-upload__preview img');
@@ -35,18 +35,13 @@ const applyEffect = (effect) => {
     imagePreview.style.filter = effect;
     selectedDataEffect = null;
     effectValueInput.value = '';
-    if (!sliderContainer.classList.contains('hidden')) {
-      sliderContainer.classList.add('hidden');
-    }
+    sliderContainer.classList.add('hidden');
     return;
   }
 
-  const effectData = EFFECTS[effect.toUpperCase()];
+  const effectData = Effects[effect.toUpperCase()];
   selectedDataEffect = effectData;
-
-  if (sliderContainer.classList.contains('hidden')) {
-    sliderContainer.classList.remove('hidden');
-  }
+  sliderContainer.classList.remove('hidden');
 
   sliderElement.noUiSlider.updateOptions({
     range: {
@@ -80,9 +75,7 @@ const initEffect = () => {
 const resetEffects = () => {
   selectedDataEffect = null;
   imagePreview.style.filter = '';
-  if (!sliderContainer.classList.contains('hidden')) {
-    sliderContainer.classList.add('hidden');
-  }
+  sliderContainer.classList.add('hidden');
 };
 
 export { initEffect, resetEffects };

@@ -112,12 +112,8 @@ const onImageInputChange = () => {
     return;
   }
 
-  const imagePreview = imageForm.querySelector('.img-upload__preview img');
   const uploadOverlay = imageForm.querySelector('.img-upload__overlay');
   const closeButton = imageForm.querySelector('.cancel');
-  const imageUrl = URL.createObjectURL(image);
-
-  imagePreview.src = imageUrl;
 
   hashtagInput.addEventListener('keydown', onKeydown);
   descriptionInput.addEventListener('keydown', onKeydown);
