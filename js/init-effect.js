@@ -1,5 +1,9 @@
 import { Effects } from './effects.js';
 
+const sliderDefault = {
+  range: { min: 0, max: 100 },
+  start: 100,
+};
 const imageUploadForm = document.querySelector('.img-upload__form');
 const imagePreview = imageUploadForm.querySelector('.img-upload__preview img');
 const effectsRadios = imageUploadForm.querySelectorAll('.effects__radio');
@@ -9,33 +13,18 @@ const effectValueInput = sliderContainer.querySelector('.effect-level__value');
 
 let selectedDataEffect = null;
 
-noUiSlider.create(sliderElement, {
-  range: {
-    min: 0,
-    max: 100,
-  },
-  start: 100,
-});
-
-sliderElement.noUiSlider.on('update', (value, handle) => {
-  if(selectedDataEffect) {
-    const filter = selectedDataEffect.filter;
-    const choosedValue = value[handle];
-    const unit = selectedDataEffect.unit;
-
-    effectValueInput.value = Number(value[handle]);
-    imagePreview.style.filter = `${filter}(${choosedValue}${unit})`;
-  }
-});
+const resetEffects = () => {
+  selectedDataEffect = null;
+  imagePreview.style.filter = '';
+  sliderContainer.classList.add('hidden');
+  effectValueInput.value = '';
+};
 
 const applyEffect = (effect) => {
   effect = effect.toString();
 
   if (effect === 'none') {
-    imagePreview.style.filter = effect;
-    selectedDataEffect = null;
-    effectValueInput.value = '';
-    sliderContainer.classList.add('hidden');
+    resetEffects();
     return;
   }
 
@@ -58,6 +47,18 @@ const applyEffect = (effect) => {
 
 const initEffect = () => {
   sliderContainer.classList.add('hidden');
+  noUiSlider.create(sliderElement, {...sliderDefault});
+
+  sliderElement.noUiSlider.on('update', (value, handle) => {
+    if(selectedDataEffect) {
+      const filter = selectedDataEffect.filter;
+      const choosedValue = value[handle];
+      const unit = selectedDataEffect.unit;
+
+      effectValueInput.value = Number(value[handle]);
+      imagePreview.style.filter = `${filter}(${choosedValue}${unit})`;
+    }
+  });
 
   effectsRadios.forEach((radioButton) => {
     radioButton.addEventListener('change', (evt) => {
@@ -67,15 +68,7 @@ const initEffect = () => {
     });
   });
 
-  imageUploadForm.addEventListener('reset', () => {
-
-  });
-};
-
-const resetEffects = () => {
-  selectedDataEffect = null;
-  imagePreview.style.filter = '';
-  sliderContainer.classList.add('hidden');
+  imageUploadForm.addEventListener('reset', resetEffects);
 };
 
 export { initEffect, resetEffects };
