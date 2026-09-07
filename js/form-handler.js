@@ -2,15 +2,23 @@ import { initModal } from './init-modal.js';
 import { isEscapeKey } from './utils.js';
 import { initResizeImage, resetResize } from './init-resize.js';
 import { initEffect, resetEffects } from './init-effect.js';
+import { sendPicturesData } from './api.js';
+import { showMessage } from './show-message.js';
 
 const MAX_HASHTAG_LENGTH = 20;
 const MAX_HASHTAGS_COUNT = 5;
 const MAX_COMMENT_LENGTH = 140;
+const Status = {
+  SUCCESS: 'success',
+  ERROR: 'error'
+};
 
 const imageForm = document.querySelector('.img-upload__form');
 const imageInput = imageForm.querySelector('.img-upload__input');
 const hashtagInput = imageForm.querySelector('.text__hashtags');
 const descriptionInput = imageForm.querySelector('.text__description');
+const submitButton = imageForm.querySelector('.img-upload__submit');
+let hideModal = null;
 let errorHashtagsMessage = '';
 let errorCommentMessage = '';
 
@@ -90,35 +98,10 @@ const getCommentError = () => errorCommentMessage || 'Некорректные �
 pristine.addValidator(hashtagInput, validateHashtags, getHashtagsError);
 pristine.addValidator(descriptionInput, validateComment, getCommentError);
 
-
-const onSubmitClick = (evt) => {
-  evt.preventDefault();
-
-  if (pristine.validate()) {
-    imageForm.submit();
-  }
-};
-
 const onKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.stopPropagation();
   }
-};
-
-const onImageInputChange = () => {
-  const image = imageInput.files[0];
-
-  if (!image) {
-    return;
-  }
-
-  const uploadOverlay = imageForm.querySelector('.img-upload__overlay');
-  const closeButton = imageForm.querySelector('.cancel');
-
-  hashtagInput.addEventListener('keydown', onKeydown);
-  descriptionInput.addEventListener('keydown', onKeydown);
-
-  initModal(uploadOverlay, closeButton, clearForm);
 };
 
 function clearForm () {
@@ -134,9 +117,50 @@ function clearForm () {
   descriptionInput.removeEventListener('keydown', onKeydown);
 }
 
+const onImageInputChange = () => {
+  const image = imageInput.files[0];
+
+  if (!image) {
+    return;
+  }
+
+  const uploadOverlay = imageForm.querySelector('.img-upload__overlay');
+  const closeButton = imageForm.querySelector('.cancel');
+
+  hashtagInput.addEventListener('keydown', onKeydown);
+  descriptionInput.addEventListener('keydown', onKeydown);
+
+  hideModal = initModal(uploadOverlay, closeButton, clearForm).hideModal;
+};
+
+const onSubmit = (evt) => {
+  evt.preventDefault();
+
+  if (pristine.validate()) {
+    const formData = new FormData(evt.target);
+    submitButton.disabled = true;
+
+    sendPicturesData(formData)
+      .then(() => {
+        clearForm();
+        if (hideModal) {
+          hideModal();
+          hideModal = null;
+        }
+        showMessage(Status.SUCCESS);
+      })
+      .catch(() => {
+        showMessage(Status.ERROR);
+      })
+      .finally(() => {
+        submitButton.disabled = false;
+      });
+  }
+};
+
 const imageFormInit = () => {
   if (imageForm) {
-    imageForm.addEventListener('submit', onSubmitClick);
+    imageForm.addEventListener('submit', onSubmit);
     imageInput.addEventListener('change', onImageInputChange);
     initResizeImage();
     initEffect();
