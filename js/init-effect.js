@@ -6,7 +6,7 @@ const sliderDefault = {
 };
 const imageUploadForm = document.querySelector('.img-upload__form');
 const imagePreview = imageUploadForm.querySelector('.img-upload__preview img');
-const effectsRadios = imageUploadForm.querySelectorAll('.effects__radio');
+const effectsList = imageUploadForm.querySelector('.effects__list');
 const sliderContainer = imageUploadForm.querySelector('.img-upload__effect-level');
 const sliderElement = sliderContainer.querySelector('.effect-level__slider');
 const effectValueInput = sliderContainer.querySelector('.effect-level__value');
@@ -47,7 +47,7 @@ const applyEffect = (effect) => {
 
 const initEffect = () => {
   sliderContainer.classList.add('hidden');
-  noUiSlider.create(sliderElement, {...sliderDefault});
+  noUiSlider.create(sliderElement, {...sliderDefault, connect: 'lower'});
 
   sliderElement.noUiSlider.on('update', (value, handle) => {
     if(selectedDataEffect) {
@@ -60,12 +60,8 @@ const initEffect = () => {
     }
   });
 
-  effectsRadios.forEach((radioButton) => {
-    radioButton.addEventListener('change', (evt) => {
-      if (evt.target.checked) {
-        applyEffect(evt.target.value);
-      }
-    });
+  effectsList.addEventListener('change', (evt) => {
+    applyEffect(evt.target.value);
   });
 
   imageUploadForm.addEventListener('reset', resetEffects);
