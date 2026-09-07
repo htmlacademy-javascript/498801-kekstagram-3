@@ -63,8 +63,6 @@ const initEffect = () => {
   effectsList.addEventListener('change', (evt) => {
     applyEffect(evt.target.value);
   });
-
-  imageUploadForm.addEventListener('reset', resetEffects);
 };
 
 export { initEffect, resetEffects };
