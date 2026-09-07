@@ -35,4 +35,6 @@ const showMessage = (status) => {
   document.addEventListener('click', onOutsideClick);
 };
 
-export { showMessage, isMessageOpen };
+const getMessageVisibility = () => isMessageOpen;
+
+export { showMessage, getMessageVisibility };

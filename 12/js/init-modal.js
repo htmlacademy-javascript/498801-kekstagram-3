@@ -1,5 +1,5 @@
 import { isEscapeKey, addHidden, removeHidden } from './utils.js';
-import { isMessageOpen } from './show-message.js';
+import { getMessageVisibility } from './show-message.js';
 
 function initModal (overlay, closeButton, callback) {
 
@@ -8,7 +8,7 @@ function initModal (overlay, closeButton, callback) {
   };
 
   const onDocumentKeydown = (evt) => {
-    if (isMessageOpen) {
+    if (getMessageVisibility()) {
       return;
     }
     if (isEscapeKey(evt)) {

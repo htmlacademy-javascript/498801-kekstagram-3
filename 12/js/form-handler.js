@@ -8,7 +8,7 @@ import { showMessage } from './show-message.js';
 const MAX_HASHTAG_LENGTH = 20;
 const MAX_HASHTAGS_COUNT = 5;
 const MAX_COMMENT_LENGTH = 140;
-const Statuses = {
+const Status = {
   SUCCESS: 'success',
   ERROR: 'error'
 };
@@ -133,7 +133,7 @@ const onImageInputChange = () => {
   hideModal = initModal(uploadOverlay, closeButton, clearForm).hideModal;
 };
 
-const onSubmitClick = (evt) => {
+const onSubmit = (evt) => {
   evt.preventDefault();
 
   if (pristine.validate()) {
@@ -147,10 +147,10 @@ const onSubmitClick = (evt) => {
           hideModal();
           hideModal = null;
         }
-        showMessage(Statuses.SUCCESS);
+        showMessage(Status.SUCCESS);
       })
       .catch(() => {
-        showMessage(Statuses.ERROR);
+        showMessage(Status.ERROR);
       })
       .finally(() => {
         submitButton.disabled = false;
@@ -160,7 +160,7 @@ const onSubmitClick = (evt) => {
 
 const imageFormInit = () => {
   if (imageForm) {
-    imageForm.addEventListener('submit', onSubmitClick);
+    imageForm.addEventListener('submit', onSubmit);
     imageInput.addEventListener('change', onImageInputChange);
     initResizeImage();
     initEffect();
