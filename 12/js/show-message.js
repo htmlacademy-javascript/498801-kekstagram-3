@@ -4,7 +4,7 @@ const showMessage = (status) => {
   const template = document.getElementById(status);
   const clone = template.content.cloneNode(true);
   const message = clone.children[0];
-  const messageInner = message.querySelector(`.${status}__inner`)
+  const messageInner = message.querySelector(`.${status}__inner`);
   document.body.append(message);
 
   isMessageOpen = true;

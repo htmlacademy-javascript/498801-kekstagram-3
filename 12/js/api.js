@@ -1,5 +1,5 @@
 const GET_PICTURES_URL = 'https://32.javascript.htmlacademy.pro/kekstagram/data';
-const SEND_FORM_URL = 'https://32.javascript.htmlacademy.pro/kekstagra';
+const SEND_FORM_URL = 'https://32.javascript.htmlacademy.pro/kekstagram';
 
 const getPicturesData = () =>
   fetch(GET_PICTURES_URL)
