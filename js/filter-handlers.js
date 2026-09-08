@@ -1,4 +1,6 @@
 const filtersForm = document.querySelector('.img-filters__form');
+const filterButtons = filtersForm.querySelectorAll('.img-filters__button');
+
 const Filter = {
   DEFAULT: 'default',
   RANDOM: 'random',
@@ -7,17 +9,20 @@ const Filter = {
 
 const assignFilterEvents = (callback) => {
   filtersForm.addEventListener('click', (evt) => {
-    if (evt.target.closest('#filter-default')) {
-      callback(Filter.DEFAULT);
+    const activeButton = evt.target.closest('.img-filters__button');
+
+    if (!activeButton) {
+      return;
     }
 
-    if (evt.target.closest('#filter-random')) {
-      callback(Filter.RANDOM);
-    }
+    filterButtons.forEach((button) => {
+      button.classList.remove('img-filters__button--active');
+    });
 
-    if (evt.target.closest('#filter-discussed')) {
-      callback(Filter.DISCUSSED);
-    }
+    activeButton.classList.add('img-filters__button--active');
+
+    const filterType = activeButton.id.replace('filter-', '');
+    callback(filterType);
   });
 };
 
