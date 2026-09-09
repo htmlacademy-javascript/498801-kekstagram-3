@@ -5,6 +5,7 @@ import { initEffect, resetEffects } from './init-effect.js';
 import { sendPicturesData } from './api.js';
 import { showMessage } from './show-message.js';
 
+const IMAGE_TYPES = ['jpg', 'jpeg', 'png', 'webp', 'avif', 'gif'];
 const MAX_HASHTAG_LENGTH = 20;
 const MAX_HASHTAGS_COUNT = 5;
 const MAX_COMMENT_LENGTH = 140;
@@ -18,6 +19,7 @@ const imageInput = imageForm.querySelector('.img-upload__input');
 const hashtagInput = imageForm.querySelector('.text__hashtags');
 const descriptionInput = imageForm.querySelector('.text__description');
 const submitButton = imageForm.querySelector('.img-upload__submit');
+const imagePreview = imageForm.querySelector('.img-upload__preview img');
 let hideModal = null;
 let errorHashtagsMessage = '';
 let errorCommentMessage = '';
@@ -122,6 +124,13 @@ const onImageInputChange = () => {
 
   if (!image) {
     return;
+  }
+
+  const imageName = image.name.toLowerCase();
+  const matches = IMAGE_TYPES.some((type) => imageName.endsWith(type));
+
+  if (matches) {
+    imagePreview.src = URL.createObjectURL(image);
   }
 
   const uploadOverlay = imageForm.querySelector('.img-upload__overlay');
