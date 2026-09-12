@@ -1,13 +1,15 @@
 import { initModal } from './init-modal.js';
-import { isEscapeKey } from './utils.js';
+import { isEscapeKey, setBackgroundForEach } from './utils.js';
 import { initResizeImage, resetResize } from './init-resize.js';
 import { initEffect, resetEffects } from './init-effect.js';
 import { sendPicturesData } from './api.js';
 import { showMessage } from './show-message.js';
 
+const IMAGE_TYPES = ['jpg', 'jpeg', 'png', 'webp', 'avif', 'gif'];
 const MAX_HASHTAG_LENGTH = 20;
 const MAX_HASHTAGS_COUNT = 5;
 const MAX_COMMENT_LENGTH = 140;
+const DEFAULT_IMAGE_SRC = 'img/upload-default-image.jpg';
 const Status = {
   SUCCESS: 'success',
   ERROR: 'error'
@@ -18,9 +20,12 @@ const imageInput = imageForm.querySelector('.img-upload__input');
 const hashtagInput = imageForm.querySelector('.text__hashtags');
 const descriptionInput = imageForm.querySelector('.text__description');
 const submitButton = imageForm.querySelector('.img-upload__submit');
+const imagePreview = imageForm.querySelector('.img-upload__preview img');
+const thumbnailsPreview = imageForm.querySelectorAll('.effects__preview');
 let hideModal = null;
 let errorHashtagsMessage = '';
 let errorCommentMessage = '';
+let imagePreviewSrc = DEFAULT_IMAGE_SRC;
 
 const pristine = new Pristine(imageForm, {
   classTo: 'img-upload__field-wrapper',
@@ -109,6 +114,12 @@ function clearForm () {
   pristine.reset();
   resetEffects();
   resetResize();
+  imagePreviewSrc = DEFAULT_IMAGE_SRC;
+  imagePreview.src = imagePreviewSrc;
+
+  setBackgroundForEach(thumbnailsPreview, imagePreviewSrc);
+  URL.revokeObjectURL(imagePreviewSrc);
+
   if (imageInput) {
     imageInput.value = '';
   }
@@ -122,6 +133,16 @@ const onImageInputChange = () => {
 
   if (!image) {
     return;
+  }
+
+  const imageName = image.name.toLowerCase();
+  const matches = IMAGE_TYPES.some((type) => imageName.endsWith(type));
+
+  if (matches) {
+    imagePreviewSrc = URL.createObjectURL(image);
+    imagePreview.src = imagePreviewSrc;
+
+    setBackgroundForEach(thumbnailsPreview, imagePreviewSrc);
   }
 
   const uploadOverlay = imageForm.querySelector('.img-upload__overlay');
