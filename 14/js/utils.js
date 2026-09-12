@@ -40,7 +40,7 @@ const createIdGenerator = () => {
 
 const toDecimal = (percent) => percent / 100;
 
-function debounce (callback, timeoutDelay = 500) {
+const debounce = (callback, timeoutDelay) => {
   // Используем замыкания, чтобы id таймаута у нас навсегда приклеился
   // к возвращаемой функции с setTimeout, тогда мы его сможем перезаписывать
   let timeoutId;
@@ -56,6 +56,12 @@ function debounce (callback, timeoutDelay = 500) {
     // Таким образом цикл «поставить таймаут - удалить таймаут» будет выполняться,
     // пока действие совершается чаще, чем переданная задержка timeoutDelay
   };
-}
+};
 
-export {isEscapeKey, addHidden, removeHidden, getRandomInteger, getRandomArrayElement, createIdGenerator, toDecimal, debounce};
+const setBackgroundForEach = (images, url) => {
+  images.forEach((image) => {
+    image.style.backgroundImage = `url(${url})`;
+  });
+};
+
+export {isEscapeKey, addHidden, removeHidden, getRandomInteger, getRandomArrayElement, createIdGenerator, toDecimal, debounce, setBackgroundForEach};
