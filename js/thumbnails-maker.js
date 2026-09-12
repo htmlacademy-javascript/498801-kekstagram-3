@@ -1,5 +1,5 @@
-import { Filter } from './filter-handlers';
-import { getRandomArrayElement } from './utils';
+import { Filter } from './filter-handlers.js';
+import { getRandomArrayElement } from './utils.js';
 
 const RANDOM_PICTURES_COUNT = 10;
 
