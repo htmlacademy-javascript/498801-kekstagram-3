@@ -84,54 +84,6 @@ const validateHashtags = (value) => {
   return true;
 };
 
-// const validateHashtags = (value) => {
-//   errorHashtagsMessage = '';
-//   const errors = [];
-//   const trimmedValue = value?.trim();
-
-//   if (!trimmedValue) {
-//     return true;
-//   }
-
-//   const tags = trimmedValue.split(/\s+/);
-
-//   if (tags.length > MAX_HASHTAGS_COUNT) {
-//     errors.push('Превышено количество');
-//   }
-
-//   const lowerTags = tags.map((tag) => tag.toLowerCase());
-
-//   tags.forEach((tag, index) => {
-//     if (!tag.startsWith('#')) {
-//       errors.push(`${tag} должен начинаться с #`);
-//     }
-
-//     const tagWithoutHash = tag.slice(1);
-//     if (!/^[a-zA-Zа-яёА-Я0-9]+$/.test(tagWithoutHash)) {
-//       errors.push(`${tag} содержит недопустимые символы`);
-//     }
-
-//     if (tagWithoutHash === '') {
-//       errors.push('Не найдено имя хэштега');
-//     }
-
-//     if (tag.length > MAX_HASHTAG_LENGTH) {
-//       errors.push(`Слишком длинный хэштег ${tag}`);
-//     }
-
-//     if (lowerTags.indexOf(tag.toLowerCase()) !== index) {
-//       errors.push(`Найден повторяющийся хэштег ${tag}`);
-//     }
-//   });
-
-//   if(errors.length > 0) {
-//     errorHashtagsMessage = errors.join(', ');
-//     return false;
-//   }
-
-//   return true;
-// };
-
 const validateComment = (value) => {
   errorCommentMessage = '';
   const trimmedValue = value?.trim();

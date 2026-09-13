@@ -1,3 +1,4 @@
+const ERROR_DELAY = 5000;
 const template = document.getElementById('data-error');
 
 const printError = () => {
@@ -7,7 +8,7 @@ const printError = () => {
   document.body.append(errorElement);
   setTimeout(() => {
     errorElement.remove();
-  }, 5000);
+  }, ERROR_DELAY);
 };
 
 export { printError };
