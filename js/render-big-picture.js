@@ -11,9 +11,9 @@ const pictureModal = document.querySelector('.big-picture');
 const pictureImg = pictureModal.querySelector('.big-picture__img img');
 const closeButton = pictureModal.querySelector('.cancel');
 const likesCountElement = pictureModal.querySelector('.likes-count');
-const commentsCountElement = pictureModal.querySelector('.social__comment-count');
-const commentsTotalCountElement = commentsCountElement.querySelector('.social__comment-total-count');
-const commentsVisibleCountElement = commentsCountElement.querySelector('.social__comment-shown-count');
+const commentsCount = pictureModal.querySelector('.social__comment-count');
+const commentsTotalCount = commentsCount.querySelector('.social__comment-total-count');
+const commentsVisibleCount = commentsCount.querySelector('.social__comment-shown-count');
 const commentsContainer = pictureModal.querySelector('.social__comments');
 const commentsLoader = pictureModal.querySelector('.comments-loader');
 const pictureCaption = pictureModal.querySelector('.social__caption');
@@ -40,11 +40,11 @@ const createComment = (avatarSrc, name, message) => {
 const printComments = () => {
   const commentsFragment = document.createDocumentFragment();
   const commentCount = Math.min(pictureComments.length, commentsCounter);
-  const visibledComments = pictureComments.slice(0, commentCount);
+  const visibleComments = pictureComments.slice(0, commentCount);
 
-  commentsVisibleCountElement.textContent = visibledComments.length;
+  commentsVisibleCount.textContent = visibleComments.length;
 
-  if (visibledComments.length === pictureComments.length) {
+  if (visibleComments.length === pictureComments.length) {
     addHidden(commentsLoader);
   } else {
     removeHidden(commentsLoader);
@@ -52,7 +52,7 @@ const printComments = () => {
 
   commentsContainer.innerHTML = '';
 
-  visibledComments.forEach((comment) => {
+  visibleComments.forEach((comment) => {
     const fillComment = createComment(comment.avatar, comment.name, comment.message);
     commentsFragment.append(fillComment);
   });
@@ -64,7 +64,7 @@ const fillPicture = (pictureData) => {
   pictureImg.src = pictureData.url;
   pictureImg.alt = pictureData.description;
   likesCountElement.textContent = pictureData.likes;
-  commentsTotalCountElement.textContent = pictureData.comments.length;
+  commentsTotalCount.textContent = pictureData.comments.length;
   pictureCaption.textContent = pictureData.description;
 
   printComments();

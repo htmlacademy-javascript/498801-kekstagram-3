@@ -42,8 +42,5 @@ function initModal (overlay, closeButton, callback) {
   return { hideModal };
 }
 
-const resetValues = (callback) => {
-  callback();
-};
 
-export { initModal, resetValues };
+export { initModal };

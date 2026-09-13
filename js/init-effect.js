@@ -21,8 +21,6 @@ const resetEffects = () => {
 };
 
 const applyEffect = (effect) => {
-  effect = effect.toString();
-
   if (effect === 'none') {
     resetEffects();
     return;
@@ -52,11 +50,11 @@ const initEffect = () => {
   sliderElement.noUiSlider.on('update', (value, handle) => {
     if(selectedDataEffect) {
       const filter = selectedDataEffect.filter;
-      const choosedValue = value[handle];
+      const chosenValue = value[handle];
       const unit = selectedDataEffect.unit;
 
       effectValueInput.value = Number(value[handle]);
-      imagePreview.style.filter = `${filter}(${choosedValue}${unit})`;
+      imagePreview.style.filter = `${filter}(${chosenValue}${unit})`;
     }
   });
 
