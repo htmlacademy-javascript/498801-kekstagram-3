@@ -19,14 +19,14 @@ const updateValues = () => {
   imagePreview.style.transform = `scale(${toDecimal(zoomCurrentValue)})`;
 };
 
-const zoomIn = () => {
+const onZoomInClick = () => {
   if (zoomCurrentValue < MAX_ZOOM_VALUE) {
     zoomCurrentValue += ZOOM_STEP;
     updateValues();
   }
 };
 
-const zoomOut = () => {
+const onZoomOutClick = () => {
   if (zoomCurrentValue > MIN_ZOOM_VALUE) {
     zoomCurrentValue -= ZOOM_STEP;
     updateValues();
@@ -34,8 +34,8 @@ const zoomOut = () => {
 };
 
 const initResizeImage = () => {
-  zoomOutButton.addEventListener('click', zoomOut);
-  zoomInButton.addEventListener('click', zoomIn);
+  zoomOutButton.addEventListener('click', onZoomOutClick);
+  zoomInButton.addEventListener('click', onZoomInClick);
 };
 
 const resetResize = () => {

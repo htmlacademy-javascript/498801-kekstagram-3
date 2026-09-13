@@ -1,13 +1,15 @@
+import { imageFormInit } from './form-handler.js';
 import { getPicturesData } from './api.js';
 import { printThumbnails} from './thumbnails-maker.js';
 import { initGallery } from './init-gallery.js';
-import { imageFormInit } from './form-handler.js';
 import { printError } from './print-error.js';
 import { assignFilterEvents } from './filter-handlers.js';
 import { debounce } from './utils.js';
 
 const RERENDER_DELAY = 500;
 const galleryFilters = document.querySelector('.img-filters');
+
+imageFormInit();
 
 getPicturesData()
   .then((picturesData) => {
@@ -23,5 +25,3 @@ getPicturesData()
   .catch(() => {
     printError();
   });
-
-imageFormInit();

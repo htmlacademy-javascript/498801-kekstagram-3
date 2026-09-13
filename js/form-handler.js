@@ -20,6 +20,8 @@ const imageInput = imageForm.querySelector('.img-upload__input');
 const hashtagInput = imageForm.querySelector('.text__hashtags');
 const descriptionInput = imageForm.querySelector('.text__description');
 const submitButton = imageForm.querySelector('.img-upload__submit');
+const uploadOverlay = imageForm.querySelector('.img-upload__overlay');
+const closeButton = imageForm.querySelector('.cancel');
 const imagePreview = imageForm.querySelector('.img-upload__preview img');
 const thumbnailsPreview = imageForm.querySelectorAll('.effects__preview');
 let hideModal = null;
@@ -35,7 +37,6 @@ const pristine = new Pristine(imageForm, {
 
 const validateHashtags = (value) => {
   errorHashtagsMessage = '';
-  const errors = [];
   const trimmedValue = value?.trim();
 
   if (!trimmedValue) {
@@ -45,37 +46,39 @@ const validateHashtags = (value) => {
   const tags = trimmedValue.split(/\s+/);
 
   if (tags.length > MAX_HASHTAGS_COUNT) {
-    errors.push('Превышено количество');
+    errorHashtagsMessage = 'Превышено количество хэштегов';
+    return false;
   }
 
   const lowerTags = tags.map((tag) => tag.toLowerCase());
 
-  tags.forEach((tag, index) => {
-    if (!tag.startsWith('#')) {
-      errors.push(`${tag} должен начинаться с #`);
-    }
-
+  for (const [index, tag] of tags.entries()) {
     const tagWithoutHash = tag.slice(1);
-    if (!/^[a-zA-Zа-яёА-Я0-9]+$/.test(tagWithoutHash)) {
-      errors.push(`${tag} содержит недопустимые символы`);
+
+    if (!tag.startsWith('#')) {
+      errorHashtagsMessage = 'Хэштег должен начинаться с #';
+      return false;
     }
 
     if (tagWithoutHash === '') {
-      errors.push('Не найдено имя хэштега');
+      errorHashtagsMessage = 'Не найдено имя хэштега';
+      return false;
+    }
+
+    if (!/^[a-zA-Zа-яёА-Я0-9]+$/.test(tagWithoutHash)) {
+      errorHashtagsMessage = 'Хэштег содержит недопустимые символы';
+      return false;
     }
 
     if (tag.length > MAX_HASHTAG_LENGTH) {
-      errors.push(`Слишком длинный хэштег ${tag}`);
+      errorHashtagsMessage = 'Слишком длинный хэштег';
+      return false;
     }
 
     if (lowerTags.indexOf(tag.toLowerCase()) !== index) {
-      errors.push(`Найден повторяющийся хэштег ${tag}`);
+      errorHashtagsMessage = 'Найден повторяющийся хэштег';
+      return false;
     }
-  });
-
-  if(errors.length > 0) {
-    errorHashtagsMessage = errors.join(', ');
-    return false;
   }
 
   return true;
@@ -109,24 +112,21 @@ const onKeydown = (evt) => {
   }
 };
 
-function clearForm () {
+const clearForm = () => {
   imageForm.reset();
   pristine.reset();
   resetEffects();
   resetResize();
+  URL.revokeObjectURL(imagePreviewSrc);
   imagePreviewSrc = DEFAULT_IMAGE_SRC;
   imagePreview.src = imagePreviewSrc;
+  imageInput.value = '';
 
   setBackgroundForEach(thumbnailsPreview, imagePreviewSrc);
-  URL.revokeObjectURL(imagePreviewSrc);
-
-  if (imageInput) {
-    imageInput.value = '';
-  }
 
   hashtagInput.removeEventListener('keydown', onKeydown);
   descriptionInput.removeEventListener('keydown', onKeydown);
-}
+};
 
 const onImageInputChange = () => {
   const image = imageInput.files[0];
@@ -143,15 +143,12 @@ const onImageInputChange = () => {
     imagePreview.src = imagePreviewSrc;
 
     setBackgroundForEach(thumbnailsPreview, imagePreviewSrc);
+
+    hashtagInput.addEventListener('keydown', onKeydown);
+    descriptionInput.addEventListener('keydown', onKeydown);
+
+    hideModal = initModal(uploadOverlay, closeButton, clearForm).hideModal;
   }
-
-  const uploadOverlay = imageForm.querySelector('.img-upload__overlay');
-  const closeButton = imageForm.querySelector('.cancel');
-
-  hashtagInput.addEventListener('keydown', onKeydown);
-  descriptionInput.addEventListener('keydown', onKeydown);
-
-  hideModal = initModal(uploadOverlay, closeButton, clearForm).hideModal;
 };
 
 const onSubmit = (evt) => {
@@ -180,12 +177,10 @@ const onSubmit = (evt) => {
 };
 
 const imageFormInit = () => {
-  if (imageForm) {
-    imageForm.addEventListener('submit', onSubmit);
-    imageInput.addEventListener('change', onImageInputChange);
-    initResizeImage();
-    initEffect();
-  }
+  imageForm.addEventListener('submit', onSubmit);
+  imageInput.addEventListener('change', onImageInputChange);
+  initResizeImage();
+  initEffect();
 };
 
 export { imageFormInit };
