@@ -1,4 +1,4 @@
-import { imageFormInit } from './form-handler.js';
+import { initImageForm } from './form-handler.js';
 import { getPicturesData } from './api.js';
 import { printThumbnails} from './thumbnails-maker.js';
 import { initGallery } from './init-gallery.js';
@@ -9,7 +9,7 @@ import { debounce } from './utils.js';
 const RERENDER_DELAY = 500;
 const galleryFilters = document.querySelector('.img-filters');
 
-imageFormInit();
+initImageForm();
 
 getPicturesData()
   .then((picturesData) => {

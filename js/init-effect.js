@@ -1,6 +1,6 @@
-import { Effects } from './effects.js';
+import { effects } from './effects.js';
 
-const sliderDefault = {
+const SLIDER_DEFAULT = {
   range: { min: 0, max: 100 },
   start: 100,
 };
@@ -26,7 +26,7 @@ const applyEffect = (effect) => {
     return;
   }
 
-  const effectData = Effects[effect.toUpperCase()];
+  const effectData = effects[effect.toUpperCase()];
   selectedDataEffect = effectData;
   sliderContainer.classList.remove('hidden');
 
@@ -45,7 +45,7 @@ const applyEffect = (effect) => {
 
 const initEffect = () => {
   sliderContainer.classList.add('hidden');
-  noUiSlider.create(sliderElement, {...sliderDefault, connect: 'lower'});
+  noUiSlider.create(sliderElement, {...SLIDER_DEFAULT, connect: 'lower'});
 
   sliderElement.noUiSlider.on('update', (value, handle) => {
     if(selectedDataEffect) {

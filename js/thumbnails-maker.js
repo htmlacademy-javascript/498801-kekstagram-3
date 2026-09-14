@@ -22,17 +22,17 @@ const createThumbnail = ({id, url, description, likes, comments}) => {
 
 const getRandomPictures = (pictures, count) => {
   const availableCount = Math.min(count, pictures.length);
-  const result = [];
+  const randomPictures = [];
 
   for (let i = 0; i < availableCount; i++) {
     let randomElement = getRandomArrayElement(pictures);
-    while (result.includes(randomElement)) {
+    while (randomPictures.includes(randomElement)) {
       randomElement = getRandomArrayElement(pictures);
     }
-    result.push(randomElement);
+    randomPictures.push(randomElement);
   }
 
-  return result;
+  return randomPictures;
 };
 
 // Добавляем все миниатюры на страницу
