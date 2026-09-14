@@ -106,7 +106,7 @@ const getCommentError = () => errorCommentMessage || 'Некорректные �
 pristine.addValidator(hashtagInput, validateHashtags, getHashtagsError);
 pristine.addValidator(descriptionInput, validateComment, getCommentError);
 
-const onKeydown = (evt) => {
+const onTextInputKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.stopPropagation();
   }
@@ -124,8 +124,8 @@ const clearForm = () => {
 
   setBackgroundForEach(thumbnailsPreview, imagePreviewSrc);
 
-  hashtagInput.removeEventListener('keydown', onKeydown);
-  descriptionInput.removeEventListener('keydown', onKeydown);
+  hashtagInput.removeEventListener('keydown', onTextInputKeydown);
+  descriptionInput.removeEventListener('keydown', onTextInputKeydown);
 };
 
 const onImageInputChange = () => {
@@ -144,14 +144,14 @@ const onImageInputChange = () => {
 
     setBackgroundForEach(thumbnailsPreview, imagePreviewSrc);
 
-    hashtagInput.addEventListener('keydown', onKeydown);
-    descriptionInput.addEventListener('keydown', onKeydown);
+    hashtagInput.addEventListener('keydown', onTextInputKeydown);
+    descriptionInput.addEventListener('keydown', onTextInputKeydown);
 
     hideModal = initModal(uploadOverlay, closeButton, clearForm).hideModal;
   }
 };
 
-const onSubmit = (evt) => {
+const onImageFormSubmit = (evt) => {
   evt.preventDefault();
 
   if (pristine.validate()) {
@@ -176,11 +176,11 @@ const onSubmit = (evt) => {
   }
 };
 
-const imageFormInit = () => {
-  imageForm.addEventListener('submit', onSubmit);
+const initImageForm = () => {
+  imageForm.addEventListener('submit', onImageFormSubmit);
   imageInput.addEventListener('change', onImageInputChange);
   initResizeImage();
   initEffect();
 };
 
-export { imageFormInit };
+export { initImageForm };

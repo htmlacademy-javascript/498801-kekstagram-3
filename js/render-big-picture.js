@@ -20,21 +20,21 @@ const pictureCaption = pictureModal.querySelector('.social__caption');
 
 // Создаем комментарий
 const createComment = (avatarSrc, name, message) => {
-  const li = document.createElement('li');
-  const img = document.createElement('img');
-  li.classList.add('social__comment');
-  img.classList.add('social__picture');
-  img.src = avatarSrc;
-  img.alt = name;
-  img.width = COMMENT_AVATAR_WIDTH;
-  img.height = COMMENT_AVATAR_HEIGHT;
+  const commentItem = document.createElement('li');
+  const avatarImage = document.createElement('img');
+  commentItem.classList.add('social__comment');
+  avatarImage.classList.add('social__picture');
+  avatarImage.src = avatarSrc;
+  avatarImage.alt = name;
+  avatarImage.width = COMMENT_AVATAR_WIDTH;
+  avatarImage.height = COMMENT_AVATAR_HEIGHT;
 
-  const p = document.createElement('p');
-  p.classList.add('social__text');
-  p.textContent = message;
+  const messageContainer = document.createElement('p');
+  messageContainer.classList.add('social__text');
+  messageContainer.textContent = message;
 
-  li.append(img, p);
-  return li;
+  commentItem.append(avatarImage, messageContainer);
+  return commentItem;
 };
 
 const printComments = () => {
