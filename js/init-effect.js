@@ -1,4 +1,4 @@
-import { effects } from './effects.js';
+import { Effect } from './effects.js';
 
 const SLIDER_DEFAULT = {
   range: { min: 0, max: 100 },
@@ -26,7 +26,7 @@ const applyEffect = (effect) => {
     return;
   }
 
-  const effectData = effects[effect.toUpperCase()];
+  const effectData = Effect[effect.toUpperCase()];
   selectedDataEffect = effectData;
   sliderContainer.classList.remove('hidden');
 
