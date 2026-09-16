@@ -4,20 +4,20 @@ const SLIDER_DEFAULT = {
   range: { min: 0, max: 100 },
   start: 100,
 };
-const imageUploadForm = document.querySelector('.img-upload__form');
-const imagePreview = imageUploadForm.querySelector('.img-upload__preview img');
-const effectsList = imageUploadForm.querySelector('.effects__list');
-const sliderContainer = imageUploadForm.querySelector('.img-upload__effect-level');
-const sliderElement = sliderContainer.querySelector('.effect-level__slider');
-const effectValueInput = sliderContainer.querySelector('.effect-level__value');
+const imageUploadFormElement = document.querySelector('.img-upload__form');
+const imagePreviewElement = imageUploadFormElement.querySelector('.img-upload__preview img');
+const effectsListElement = imageUploadFormElement.querySelector('.effects__list');
+const sliderContainerElement = imageUploadFormElement.querySelector('.img-upload__effect-level');
+const sliderElement = sliderContainerElement.querySelector('.effect-level__slider');
+const effectValueInputElement = sliderContainerElement.querySelector('.effect-level__value');
 
 let selectedDataEffect = null;
 
 const resetEffects = () => {
   selectedDataEffect = null;
-  imagePreview.style.filter = '';
-  sliderContainer.classList.add('hidden');
-  effectValueInput.value = '';
+  imagePreviewElement.style.filter = '';
+  sliderContainerElement.classList.add('hidden');
+  effectValueInputElement.value = '';
 };
 
 const applyEffect = (effect) => {
@@ -28,7 +28,7 @@ const applyEffect = (effect) => {
 
   const effectData = Effect[effect.toUpperCase()];
   selectedDataEffect = effectData;
-  sliderContainer.classList.remove('hidden');
+  sliderContainerElement.classList.remove('hidden');
 
   sliderElement.noUiSlider.updateOptions({
     range: {
@@ -40,11 +40,11 @@ const applyEffect = (effect) => {
   });
 
   const filterValue = `${effectData.max}${effectData.unit}`;
-  imagePreview.style.filter = `${effectData.filter}(${filterValue})`;
+  imagePreviewElement.style.filter = `${effectData.filter}(${filterValue})`;
 };
 
 const initEffect = () => {
-  sliderContainer.classList.add('hidden');
+  sliderContainerElement.classList.add('hidden');
   noUiSlider.create(sliderElement, {...SLIDER_DEFAULT, connect: 'lower'});
 
   sliderElement.noUiSlider.on('update', (value, handle) => {
@@ -53,12 +53,12 @@ const initEffect = () => {
       const chosenValue = value[handle];
       const unit = selectedDataEffect.unit;
 
-      effectValueInput.value = Number(value[handle]);
-      imagePreview.style.filter = `${filter}(${chosenValue}${unit})`;
+      effectValueInputElement.value = Number(value[handle]);
+      imagePreviewElement.style.filter = `${filter}(${chosenValue}${unit})`;
     }
   });
 
-  effectsList.addEventListener('change', (evt) => {
+  effectsListElement.addEventListener('change', (evt) => {
     applyEffect(evt.target.value);
   });
 };

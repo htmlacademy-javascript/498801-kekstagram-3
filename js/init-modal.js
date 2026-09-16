@@ -1,7 +1,7 @@
 import { isEscapeKey, addHidden, removeHidden } from './utils.js';
 import { getMessageVisibility } from './show-message.js';
 
-function initModal (overlay, closeButton, callback) {
+const initModal = (overlay, closeButton, callback) => {
 
   const onCloseClick = () => {
     hideModal();
@@ -40,7 +40,7 @@ function initModal (overlay, closeButton, callback) {
   }
 
   return { hideModal };
-}
+};
 
 
 export { initModal };

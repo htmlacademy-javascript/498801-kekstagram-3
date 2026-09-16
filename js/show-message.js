@@ -1,11 +1,12 @@
 let isMessageOpen = false;
 
 const showMessage = (status) => {
-  const template = document.getElementById(status);
-  const clone = template.content.cloneNode(true);
-  const message = clone.children[0];
-  const messageInner = message.querySelector(`.${status}__inner`);
-  document.body.append(message);
+  const templateElement = document.getElementById(status);
+  const cloneElement = templateElement.content.cloneNode(true);
+  const messageElement = cloneElement.children[0];
+  const messageInnerElement = messageElement.querySelector(`.${status}__inner`);
+  const closeButtonElement = messageElement.querySelector(`.${status}__button`);
+  document.body.append(messageElement);
 
   isMessageOpen = true;
 
@@ -17,20 +18,23 @@ const showMessage = (status) => {
   };
 
   const onOutsideClick = (evt) => {
-    if (!messageInner.contains(evt.target)) {
+    if (!messageInnerElement.contains(evt.target)) {
       closeMessage();
     }
   };
 
+  const onMessageButtonClick = () => {
+    closeMessage();
+  };
+
   function closeMessage () {
     isMessageOpen = false;
-    message.remove();
+    messageElement.remove();
     document.removeEventListener('keydown', onEscapeKeydown);
     document.removeEventListener('click', onOutsideClick);
   }
 
-  const closeButton = message.querySelector(`.${status}__button`);
-  closeButton.addEventListener('click', closeMessage);
+  closeButtonElement.addEventListener('click', onMessageButtonClick);
   document.addEventListener('keydown', onEscapeKeydown);
   document.addEventListener('click', onOutsideClick);
 };
