@@ -7,16 +7,16 @@ const MIN_ZOOM_VALUE = 25;
 
 let zoomCurrentValue = DEFAULT_ZOOM_VALUE;
 
-const imagePreviewContainer = document.querySelector('.img-upload__preview-container');
-const imagePreview = imagePreviewContainer.querySelector('.img-upload__preview img');
-const inputScale = imagePreviewContainer.querySelector('.scale__control--value');
+const imagePreviewContainerElement = document.querySelector('.img-upload__preview-container');
+const imagePreviewElement = imagePreviewContainerElement.querySelector('.img-upload__preview img');
+const inputScaleElement = imagePreviewContainerElement.querySelector('.scale__control--value');
 
-const zoomOutButton = imagePreviewContainer.querySelector('.scale__control--smaller');
-const zoomInButton = imagePreviewContainer.querySelector('.scale__control--bigger');
+const zoomOutButtonElement = imagePreviewContainerElement.querySelector('.scale__control--smaller');
+const zoomInButtonElement = imagePreviewContainerElement.querySelector('.scale__control--bigger');
 
 const updateValues = () => {
-  inputScale.value = `${zoomCurrentValue}%`;
-  imagePreview.style.transform = `scale(${toDecimal(zoomCurrentValue)})`;
+  inputScaleElement.value = `${zoomCurrentValue}%`;
+  imagePreviewElement.style.transform = `scale(${toDecimal(zoomCurrentValue)})`;
 };
 
 const onZoomInClick = () => {
@@ -34,8 +34,8 @@ const onZoomOutClick = () => {
 };
 
 const initResizeImage = () => {
-  zoomOutButton.addEventListener('click', onZoomOutClick);
-  zoomInButton.addEventListener('click', onZoomInClick);
+  zoomOutButtonElement.addEventListener('click', onZoomOutClick);
+  zoomInButtonElement.addEventListener('click', onZoomInClick);
 };
 
 const resetResize = () => {

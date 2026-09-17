@@ -15,23 +15,23 @@ const Status = {
   ERROR: 'error'
 };
 
-const imageForm = document.querySelector('.img-upload__form');
-const imageInput = imageForm.querySelector('.img-upload__input');
-const hashtagInput = imageForm.querySelector('.text__hashtags');
-const descriptionInput = imageForm.querySelector('.text__description');
-const submitButton = imageForm.querySelector('.img-upload__submit');
-const uploadOverlay = imageForm.querySelector('.img-upload__overlay');
-const closeButton = imageForm.querySelector('.cancel');
-const imagePreview = imageForm.querySelector('.img-upload__preview img');
-const thumbnailsPreview = imageForm.querySelectorAll('.effects__preview');
+const imageFormElement = document.querySelector('.img-upload__form');
+const imageInputElement = imageFormElement.querySelector('.img-upload__input');
+const hashtagInputElement = imageFormElement.querySelector('.text__hashtags');
+const descriptionInputElement = imageFormElement.querySelector('.text__description');
+const submitButtonElement = imageFormElement.querySelector('.img-upload__submit');
+const uploadOverlayElement = imageFormElement.querySelector('.img-upload__overlay');
+const closeButtonElement = imageFormElement.querySelector('.cancel');
+const imagePreviewElement = imageFormElement.querySelector('.img-upload__preview img');
+const thumbnailPreviewElements = imageFormElement.querySelectorAll('.effects__preview');
 let hideModal = null;
 let errorHashtagsMessage = '';
 let errorCommentMessage = '';
 let imagePreviewSrc = DEFAULT_IMAGE_SRC;
 
-const pristine = new Pristine(imageForm, {
+const pristine = new Pristine(imageFormElement, {
   classTo: 'img-upload__field-wrapper',
-  errorClass: 'img-upload__field-wrapper--error',
+  errorTextClass: 'img-upload__field-wrapper--error',
   errorTextParent: 'img-upload__field-wrapper'
 });
 
@@ -52,36 +52,38 @@ const validateHashtags = (value) => {
 
   const lowerTags = tags.map((tag) => tag.toLowerCase());
 
-  for (const [index, tag] of tags.entries()) {
+  const hasError = tags.some((tag, index) => {
     const tagWithoutHash = tag.slice(1);
 
     if (!tag.startsWith('#')) {
       errorHashtagsMessage = 'Хэштег должен начинаться с #';
-      return false;
+      return true;
     }
 
     if (tagWithoutHash === '') {
       errorHashtagsMessage = 'Не найдено имя хэштега';
-      return false;
+      return true;
     }
 
     if (!/^[a-zA-Zа-яёА-Я0-9]+$/.test(tagWithoutHash)) {
       errorHashtagsMessage = 'Хэштег содержит недопустимые символы';
-      return false;
+      return true;
     }
 
     if (tag.length > MAX_HASHTAG_LENGTH) {
       errorHashtagsMessage = 'Слишком длинный хэштег';
-      return false;
+      return true;
     }
 
     if (lowerTags.indexOf(tag.toLowerCase()) !== index) {
       errorHashtagsMessage = 'Найден повторяющийся хэштег';
-      return false;
+      return true;
     }
-  }
 
-  return true;
+    return false;
+  });
+
+  return !hasError;
 };
 
 const validateComment = (value) => {
@@ -103,8 +105,8 @@ const validateComment = (value) => {
 const getHashtagsError = () => errorHashtagsMessage || 'Некорректные данные';
 const getCommentError = () => errorCommentMessage || 'Некорректные данные';
 
-pristine.addValidator(hashtagInput, validateHashtags, getHashtagsError);
-pristine.addValidator(descriptionInput, validateComment, getCommentError);
+pristine.addValidator(hashtagInputElement, validateHashtags, getHashtagsError);
+pristine.addValidator(descriptionInputElement, validateComment, getCommentError);
 
 const onTextInputKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -113,23 +115,23 @@ const onTextInputKeydown = (evt) => {
 };
 
 const clearForm = () => {
-  imageForm.reset();
+  imageFormElement.reset();
   pristine.reset();
   resetEffects();
   resetResize();
   URL.revokeObjectURL(imagePreviewSrc);
   imagePreviewSrc = DEFAULT_IMAGE_SRC;
-  imagePreview.src = imagePreviewSrc;
-  imageInput.value = '';
+  imagePreviewElement.src = imagePreviewSrc;
+  imageInputElement.value = '';
 
-  setBackgroundForEach(thumbnailsPreview, imagePreviewSrc);
+  setBackgroundForEach(thumbnailPreviewElements, imagePreviewSrc);
 
-  hashtagInput.removeEventListener('keydown', onTextInputKeydown);
-  descriptionInput.removeEventListener('keydown', onTextInputKeydown);
+  hashtagInputElement.removeEventListener('keydown', onTextInputKeydown);
+  descriptionInputElement.removeEventListener('keydown', onTextInputKeydown);
 };
 
 const onImageInputChange = () => {
-  const image = imageInput.files[0];
+  const image = imageInputElement.files[0];
 
   if (!image) {
     return;
@@ -140,14 +142,14 @@ const onImageInputChange = () => {
 
   if (matches) {
     imagePreviewSrc = URL.createObjectURL(image);
-    imagePreview.src = imagePreviewSrc;
+    imagePreviewElement.src = imagePreviewSrc;
 
-    setBackgroundForEach(thumbnailsPreview, imagePreviewSrc);
+    setBackgroundForEach(thumbnailPreviewElements, imagePreviewSrc);
 
-    hashtagInput.addEventListener('keydown', onTextInputKeydown);
-    descriptionInput.addEventListener('keydown', onTextInputKeydown);
+    hashtagInputElement.addEventListener('keydown', onTextInputKeydown);
+    descriptionInputElement.addEventListener('keydown', onTextInputKeydown);
 
-    hideModal = initModal(uploadOverlay, closeButton, clearForm).hideModal;
+    hideModal = initModal(uploadOverlayElement, closeButtonElement, clearForm).hideModal;
   }
 };
 
@@ -156,11 +158,10 @@ const onImageFormSubmit = (evt) => {
 
   if (pristine.validate()) {
     const formData = new FormData(evt.target);
-    submitButton.disabled = true;
+    submitButtonElement.disabled = true;
 
     sendPicturesData(formData)
       .then(() => {
-        clearForm();
         if (hideModal) {
           hideModal();
           hideModal = null;
@@ -171,14 +172,14 @@ const onImageFormSubmit = (evt) => {
         showMessage(Status.ERROR);
       })
       .finally(() => {
-        submitButton.disabled = false;
+        submitButtonElement.disabled = false;
       });
   }
 };
 
 const initImageForm = () => {
-  imageForm.addEventListener('submit', onImageFormSubmit);
-  imageInput.addEventListener('change', onImageInputChange);
+  imageFormElement.addEventListener('submit', onImageFormSubmit);
+  imageInputElement.addEventListener('change', onImageInputChange);
   initResizeImage();
   initEffect();
 };

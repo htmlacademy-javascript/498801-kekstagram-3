@@ -7,7 +7,7 @@ import { assignFilterEvents } from './filter-handlers.js';
 import { debounce } from './utils.js';
 
 const RERENDER_DELAY = 500;
-const galleryFilters = document.querySelector('.img-filters');
+const galleryFiltersElement = document.querySelector('.img-filters');
 
 initImageForm();
 
@@ -16,7 +16,7 @@ getPicturesData()
     printThumbnails(picturesData);
     initGallery(picturesData);
 
-    galleryFilters.classList.remove('img-filters--inactive');
+    galleryFiltersElement.classList.remove('img-filters--inactive');
 
     assignFilterEvents(debounce((selectedFilter) => {
       printThumbnails(picturesData, selectedFilter);

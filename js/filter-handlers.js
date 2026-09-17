@@ -1,27 +1,22 @@
-const filtersForm = document.querySelector('.img-filters__form');
-const filterButtons = filtersForm.querySelectorAll('.img-filters__button');
-
 const Filter = {
-  DEFAULT: 'default',
   RANDOM: 'random',
   DISCUSSED: 'discussed'
 };
+const filtersFormElement = document.querySelector('.img-filters__form');
 
 const assignFilterEvents = (callback) => {
-  filtersForm.addEventListener('click', (evt) => {
-    const activeButton = evt.target.closest('.img-filters__button');
+  filtersFormElement.addEventListener('click', (evt) => {
+    const currentButtonElement = filtersFormElement.querySelector('.img-filters__button--active');
+    const activeButtonElement = evt.target.closest('.img-filters__button');
 
-    if (!activeButton) {
+    if (!activeButtonElement || activeButtonElement === currentButtonElement) {
       return;
     }
 
-    filterButtons.forEach((button) => {
-      button.classList.remove('img-filters__button--active');
-    });
+    currentButtonElement?.classList.remove('img-filters__button--active');
+    activeButtonElement.classList.add('img-filters__button--active');
 
-    activeButton.classList.add('img-filters__button--active');
-
-    const filterType = activeButton.id.replace('filter-', '');
+    const filterType = activeButtonElement.id.replace('filter-', '');
     callback(filterType);
   });
 };
