@@ -53,8 +53,8 @@ const printComments = () => {
   commentsContainerElement.innerHTML = '';
 
   visibleComments.forEach((comment) => {
-    const fillComment = createComment(comment.avatar, comment.name, comment.message);
-    commentsFragmentElement.append(fillComment);
+    const commentElement = createComment(comment.avatar, comment.name, comment.message);
+    commentsFragmentElement.append(commentElement);
   });
 
   commentsContainerElement.append(commentsFragmentElement);
